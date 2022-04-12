@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import './App.css';
-
 import Countries from './components/countries'
-
+import { Container } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 class App extends React.Component {
   state = {
     countryData: []
@@ -20,10 +20,12 @@ class App extends React.Component {
 
   render() {
     return (
+      <Container>
+ 
+
       <Countries countryData={this.state.countryData} />
-      // <ul>
-      //   { this.state.countryData.map(country => <li>{country.name}</li>)}
-      // </ul>
+
+      </Container>
     )
   }
 }
