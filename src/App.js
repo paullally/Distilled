@@ -1,33 +1,35 @@
-import React from 'react';
-import axios from 'axios';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 import Countries from './components/countries'
-import { Container } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-class App extends React.Component {
-  state = {
-    countryData: []
-   
-  }
+import Country from './components/country'
+// This site has 3 pages, all of which are rendered
+// dynamically in the browser (not server rendered).
+//
+// Although the page does not ever refresh, notice how
+// React Router keeps the URL up to date as you navigate
+// through the site. This preserves the browser history,
+// making sure things like the back button and bookmarks
+// work properly.
 
-  componentDidMount() {
-    axios.get(`https://restcountries.com/v3.1/all`)
-      .then(res => {
-        const countryData = res.data;
-        this.setState({ countryData });
-      })
-  }
-
-  render() {
-    return (
-      <Container>
- 
-
-      <Countries countryData={this.state.countryData} />
-
-      </Container>
-    )
-  }
+export default function BasicExample() {
+  return (
+    <Router>
+        <Routes>
+          <Route exact path="/" element= {<Countries />}>
+            
+          </Route>
+          <Route path="/:name"  element={<Country />}>
+            
+          </Route>
+        </Routes>
+     
+    </Router>
+  );
 }
 
-export default App;
+
