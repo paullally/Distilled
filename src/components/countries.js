@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react"
 import {Link } from "react-router-dom"
-import { Card } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
+import { Card,Row,Col } from 'react-bootstrap';
 export default function Countries() {
   const [countries, setCountries] = useState([])
 

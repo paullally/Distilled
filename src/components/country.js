@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
 import { Link, useParams } from "react-router-dom"
-import { Card } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
+import { Card,Row,Col } from 'react-bootstrap';
 export default function Country() {
   const [country, setCountry] = useState([])
   const { name } = useParams()
-
+  let population;
+  let flag;
+  let capital;
+  let currencies = []
+  let languages = []
+  let borders = []
   useEffect(() => {
     const fetchCountryData = async () => {
       const res = await fetch(
@@ -19,42 +22,27 @@ export default function Country() {
 
     fetchCountryData()
   }, [name])
-
-  return (
-    <Row>
+    country.forEach((country) =>{
+      population=country.population
+      flag = country.flags.png
+      capital = country.capital
+      languages = Object.values(country.languages)
+      borders = Object.values(country.borders)
+      Object.values(country.currencies).forEach(currency=>{
+        currencies.push(currency.name)
+      })
       
-    {country.map(({name,capital,flags,population }) => (
-
-
-
-
- <Col lg="4" md="6" sm="6" xs="12" className="py-5" key={name}>
-   <Link to={`/${name.common}`} key={name}>
- <Card>
- 
-<Card.Body>
-<Row>
-<Col lg="3" md="3" sm="3" xs="3">
-<Card.Img  className='img-fluid' src={flags.png} />
-</Col>
-<Col lg="9" md="9" sm="9" xs="9">
-<Card.Title>{name.common}</Card.Title>
-<Card.Text>
-{capital}
-</Card.Text>
-</Col>
-
-</Row>
-<Card.Text className="py-3 ">
-population: {population}
-</Card.Text>
-</Card.Body>
-</Card>
- 
-  </Link >
- </Col>
-
-    ))}
+    })
+  return (
+    <Row >
+    <Col lg="12" className=" d-flex justify-content-center ">
+      <img src={flag}></img>
+    </Col>
+    <Col lg="12" className="py-5" >
+     <Card>
+     <Card.Title>{name}</Card.Title>
+     </Card>
+    </Col>
   </Row>
   )
 }
