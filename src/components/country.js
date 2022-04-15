@@ -15,34 +15,55 @@ export default function Country() {
       const res = await fetch(
         `https://restcountries.com/v3.1/name/${name}`
       )
+      
       const data = await res.json()
-      console.log(data)
       setCountry(data)
     }
 
     fetchCountryData()
   }, [name])
+
+
+
+    console.log(country)
     country.forEach((country) =>{
       population=country.population
       flag = country.flags.png
       capital = country.capital
       languages = Object.values(country.languages)
-      borders = Object.values(country.borders)
+      if (country.borders != null)
+      {
+        borders = Object.values(country.borders)
+      }
+      else
+      {
+        borders.push("None")
+      }
+      
       Object.values(country.currencies).forEach(currency=>{
         currencies.push(currency.name)
       })
       
     })
+
   return (
-    <Row >
-    <Col lg="12" className=" d-flex justify-content-center ">
+    <Row className =  "d-flex justify-content-center py-5 "  >
+    <Col lg="12" className =  "d-flex justify-content-center " >
       <img src={flag}></img>
     </Col>
-    <Col lg="12" className="py-5" >
-     <Card>
-     <Card.Title>{name}</Card.Title>
+    <Col lg="7" className="py-5" >
+     <Card >
+     <Card.Title className="py-3 px-3">{name}</Card.Title>
+     <Card.Title className="py-3 px-3">Capital: {capital}</Card.Title>
+     <Card.Title className="py-3 px-3">Population: {population}</Card.Title>
+     <Card.Title className="py-3 px-3">currencies: {currencies}</Card.Title>
+     <Card.Title className="py-3 px-3">languages: {languages}</Card.Title>
      </Card>
     </Col>
+    <Col lg="7"  >
+    <h4 >Bordering Countries</h4>
+    </Col>
+ 
   </Row>
   )
 }
