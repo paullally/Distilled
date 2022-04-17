@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+
 import {Link } from "react-router-dom"
 import { Card,Row,Col } from 'react-bootstrap';
 export default function Countries() {
@@ -17,7 +18,6 @@ export default function Countries() {
     fetchCountries()
   }, [])
 
-  console.log(countries)
 
   return (
     <Row>
@@ -27,14 +27,14 @@ export default function Countries() {
 
 
 
- <Col lg="4" md="6" sm="6" xs="12" className="py-5" key={name}>
-   <Link to={`/${name.common}`} key={name}>
+ <Col lg="4" md="6" sm="6" xs="12" className="py-5" key={name.common}>
+   <Link to={`/${name.common}`} key={name} className="link">
  <Card>
  
 <Card.Body>
 <Row>
 <Col lg="3" md="3" sm="3" xs="3">
-<Card.Img  className='img-fluid' src={flags.png} />
+<Card.Img  className='img-fluid' alt="Country Flag" src={flags.png} />
 </Col>
 <Col lg="9" md="9" sm="9" xs="9">
 <Card.Title>{name.common}</Card.Title>
@@ -57,3 +57,4 @@ population: {population}
   </Row>
   )
 }
+

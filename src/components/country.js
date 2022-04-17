@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+
 import { Link, useParams } from "react-router-dom"
 import { Card,Row,Col } from 'react-bootstrap';
 export default function Country() {
@@ -10,6 +11,8 @@ export default function Country() {
   let currencies = []
   let languages = []
   let borders = []
+  let curtitle = "Currency"
+  let langtitle = "Language"
   useEffect(() => {
     const fetchCountryData = async () => {
       const res = await fetch(
@@ -18,52 +21,125 @@ export default function Country() {
       
       const data = await res.json()
       setCountry(data)
+      console.log(data)
     }
 
     fetchCountryData()
   }, [name])
 
-
-
-    console.log(country)
     country.forEach((country) =>{
       population=country.population
       flag = country.flags.png
       capital = country.capital
-      languages = Object.values(country.languages)
-      if (country.borders != null)
+      currencies = Object.keys(country.currencies)
+      Object.values(country.languages).forEach(language=>{
+        languages.push(language)
+      })
+      if (country.borders)
       {
         borders = Object.values(country.borders)
       }
-      else
-      {
-        borders.push("None")
-      }
       
-      Object.values(country.currencies).forEach(currency=>{
-        currencies.push(currency.name)
-      })
+    
       
     })
+    if(currencies.length>1)
+    {
+      curtitle = "Currencies"
+    }
+    if(languages.length>1)
+    {
+      langtitle = "Languages"
+    }
+    if(borders.length>0)
+    {
+      return (
+        <div key={name}>
+         
+          <Row className =  "d-flex justify-content-center py-5 "  >
+         
+         <Col lg="6" className =  "d-flex justify-content-start " >
+         <Link to={`/`}   className="btn btn-danger my-4">Back</Link>
+       
+   
+        </Col>
+        <Col lg="12" className =  "d-flex justify-content-center " >
+          <img src={flag} alt="Country Flag"></img>
+        </Col>
+        <Col lg="7" className="py-3" >
+         <Card >
+         <Card.Title className="py-2 px-3">{name}</Card.Title>
+         <Card.Title className="py-2 px-3">Capital: {capital}</Card.Title>
+         <Card.Title className="py-2 px-3">Population: {population}</Card.Title>
+         <Card.Title className="py-2 px-3">{curtitle}: {currencies}</Card.Title>
+         <Card.Title className="py-2 px-3">{langtitle}: {languages.map((language) => (
+            <span key={language}>  {language}</span>
+    ))}
+    </Card.Title>
+         </Card>
+        </Col>
+        <Col  lg ="7" className= "py-3 " >
+             <h4 className= "py-3 mx-1 " >Bordering Countries: </h4>
+          <Row className="px-3">
+          {borders.map((border) => (
+         <Col lg="2" md="2" sm="4" xs="4"  className=" mb-2 border-tile mx-1  text-center" key={border}>{border}</Col>
+    ))}
+          </Row>
+       
+        </Col>
+        
+        
+      
+    
+      </Row>
+        </div>
+        
+      )
 
-  return (
-    <Row className =  "d-flex justify-content-center py-5 "  >
-    <Col lg="12" className =  "d-flex justify-content-center " >
-      <img src={flag}></img>
+    }
+  else
+  {
+    return (
+      <div key={name}>
+         
+      <Row className =  "d-flex justify-content-center py-5 "  >
+     
+     <Col lg="6" className =  "d-flex justify-content-start " >
+     <Link to={`/`}   className="btn btn-danger my-4">Back</Link>
     </Col>
-    <Col lg="7" className="py-5" >
+    <Col lg="12" className =  "d-flex justify-content-center " >
+      <img src={flag} alt="Country Flag"></img>
+    </Col>
+    <Col lg="7" className="py-3" >
      <Card >
-     <Card.Title className="py-3 px-3">{name}</Card.Title>
-     <Card.Title className="py-3 px-3">Capital: {capital}</Card.Title>
-     <Card.Title className="py-3 px-3">Population: {population}</Card.Title>
-     <Card.Title className="py-3 px-3">currencies: {currencies}</Card.Title>
-     <Card.Title className="py-3 px-3">languages: {languages}</Card.Title>
+     <Card.Title className="py-2 px-3">{name}</Card.Title>
+     <Card.Title className="py-2 px-3">Capital: {capital}</Card.Title>
+     <Card.Title className="py-2 px-3">Population: {population}</Card.Title>
+     <Card.Title className="py-2 px-3">{curtitle}: {currencies}</Card.Title>
+     <Card.Title className="py-2 px-3">{langtitle}: {languages.map((language) => (
+        <span key={language}>  {language}</span>
+))}
+</Card.Title>
      </Card>
     </Col>
-    <Col lg="7"  >
-    <h4 >Bordering Countries</h4>
+    <Col  lg ="7" className= "py-3 " >
+         <h4 className= "py-3 mx-1 " >No Bordering Countries: </h4>
+
+   
     </Col>
- 
+    
+    
+  
+
   </Row>
-  )
+    </div>
+    
+      
+    )
+  }
 }
+
+
+
+
+
