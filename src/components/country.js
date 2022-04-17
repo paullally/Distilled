@@ -21,7 +21,7 @@ export default function Country() {
       
       const data = await res.json()
       setCountry(data)
-      console.log(data)
+
     }
 
     fetchCountryData()
